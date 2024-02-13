@@ -1,12 +1,17 @@
 import java.io.DataInputStream;
 import java.net.Socket;
+import java.util.Scanner;
+
 // Application client
 public class Client {
+    static String serverAddress;
+    static int port;
     private static Socket socket;
     public static void main(String[] args) throws Exception {
         // Adresse et port du serveur
-        String serverAddress = "127.0.0.1";
-        int port = 5000;
+        askInformation();
+//        String serverAddress = "127.0.0.1";
+//        int port = 5000;
 
         // Création d'une nouvelle connexion aves le serveur
         socket = new Socket(serverAddress, port);
@@ -20,5 +25,24 @@ public class Client {
         System.out.println(helloMessageFromServer);
         // fermeture de La connexion avec le serveur
         socket.close();
+    }
+
+    public static void askInformation(){
+        Scanner scanner = new Scanner(System.in);
+
+        do {
+            System.out.println("What is the server IP?");
+            serverAddress = scanner.nextLine();
+        } while(!Validation.isIP(serverAddress));
+
+        do {
+            System.out.println("What is the port?");
+            try {
+                port= Integer.parseInt(scanner.nextLine());
+            }
+            catch (Exception e){
+                port = -1;
+            }
+        } while(!Validation.isValidPort(port));
     }
 }
