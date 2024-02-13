@@ -1,16 +1,21 @@
+import java.io.DataInputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.util.Scanner;
 public class Server {
     private static ServerSocket Listener; // Application Serveur
+    static String serverAddress;
+    static int serverPort;
 
     public static void main(String[] args) throws Exception {
         // Compteur incrémenté à chaque connexion d'un client au serveur
         int clientNumber = 0;
 
         // Adresse et port du serveur
-        String serverAddress = "127.0.0.1";
-        int serverPort = 5000;
+        askConnection();
+//        String serverAddress = "127.0.0.1";
+//        int serverPort = 5000;
 
         // Création de la connexien pour communiquer ave les, clients
         Listener = new ServerSocket();
@@ -34,5 +39,26 @@ public class Server {
             // Fermeture de la connexion
             Listener.close();
         }
+    }
+
+    public static void askConnection(){
+        Scanner scanner = new Scanner(System.in);
+
+        do {
+            System.out.println("What is the server IP?");
+            serverAddress = scanner.nextLine();
+        } while(!Validation.isIP(serverAddress));
+
+        do {
+            System.out.println("What is the port?");
+            try {
+                serverPort= Integer.parseInt(scanner.nextLine());
+            }
+            catch (Exception e){
+                serverPort = -1;
+            }
+
+
+        } while(!Validation.isValidPort(serverPort));
     }
 }
