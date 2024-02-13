@@ -14,8 +14,6 @@ public class Server {
 
         // Adresse et port du serveur
         askConnection();
-//        String serverAddress = "127.0.0.1";
-//        int serverPort = 5000;
 
         // Création de la connexien pour communiquer ave les, clients
         Listener = new ServerSocket();
@@ -57,8 +55,6 @@ public class Server {
             catch (Exception e){
                 serverPort = -1;
             }
-
-
         } while(!Validation.isValidPort(serverPort));
     }
 }
