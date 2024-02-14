@@ -1,10 +1,14 @@
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
+
 public class ClientHandler extends Thread {
     // pour traiter la demande de chaque client sur un socket particulier
     private Socket socket;
     private int clientNumber;
+    private UserDataBase userDataBase = new UserDataBase();
     public ClientHandler(Socket socket, int clientNumber) {
         this.socket = socket;
         this.clientNumber = clientNumber; System.out.println("New connection with client#" + clientNumber + " at" + socket);
@@ -15,7 +19,7 @@ public class ClientHandler extends Thread {
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             // création de canal d’envoi // envoi de message
             out.writeUTF("Hello from server - you are client#" + clientNumber);
-
+            askUserInfo();
         } catch (IOException e) {
             System.out.println("Error handling client# " + clientNumber + ": " + e);
         } finally {
@@ -26,5 +30,20 @@ public class ClientHandler extends Thread {
             }
             System.out.println("Connection with client# " + clientNumber+ " closed");
         }
+    }
+
+    public void askUserInfo() throws IOException {
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+        out.writeUTF("What is your username");
+        String username = in.readUTF();
+        if((userDataBase.validateUsername(username))){
+            out.writeUTF("What is your password");
+            String password = in.readUTF();
+        }
+        else
+            out.writeUTF("Hello, write your password to create an account");
+        String password = in.readUTF();
     }
 }

@@ -1,4 +1,5 @@
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -6,7 +7,9 @@ import java.util.Scanner;
 public class Client {
     static String serverAddress;
     static int port;
+    static Scanner scanner = new Scanner(System.in);;
     private static Socket socket;
+
     public static void main(String[] args) throws Exception {
         // Adresse et port du serveur
         askInformation();
@@ -19,17 +22,28 @@ public class Client {
 
         // Céatien d'un canal entrant pour recevoir les messages envoyés, par le serveur
         DataInputStream in = new DataInputStream(socket.getInputStream());
-
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         // Attente de la réception d'un message envoyé par le, server sur le canal
         String helloMessageFromServer = in.readUTF();
         System.out.println(helloMessageFromServer);
+
+        String usernameQuestion = in.readUTF();
+        System.out.println(usernameQuestion);
+
+        String username = scanner.nextLine();
+        out.writeUTF(username);
+
+        String passwordQuestion = in.readUTF();
+        System.out.println(passwordQuestion);
+
+        String password = scanner.nextLine();
+        out.writeUTF(password);
+
         // fermeture de La connexion avec le serveur
         socket.close();
     }
 
     public static void askInformation(){
-        Scanner scanner = new Scanner(System.in);
-
         do {
             System.out.println("What is the server IP?");
             serverAddress = scanner.nextLine();

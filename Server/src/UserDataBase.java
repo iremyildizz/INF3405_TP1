@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDataBase {
-    private static final String Data_Base_File = "UserBD.gson";
+    private static final String Data_Base_File = "UserBD.json";
     private List<User> users;
     private Gson gson = new Gson();
 
@@ -40,5 +40,9 @@ public class UserDataBase {
 
     public boolean validateUser(String username, String password){
         return users.stream().anyMatch(user -> user.getUsername().equals(username) && user.getPassword().equals(password));
+    }
+
+    public boolean validateUsername(String username){
+        return users.stream().anyMatch(user -> user.getUsername().equals(username));
     }
 }
