@@ -13,6 +13,7 @@ public class MessageDataBase {
     private static final String Data_Base_File = "messageBD.json";
     private List<Message> messages;
     private Gson gson = new Gson();
+    private final int FIFTEEN = 15;
 
     public MessageDataBase(){messages = loadMessages();}
 
@@ -37,6 +38,19 @@ public class MessageDataBase {
             gson.toJson(messages, writer);
         } catch(IOException e){
             System.err.println("An error occurred: " + e.getMessage());
+        }
+    }
+
+    public void printLastMessages(){
+        if (messages.size() >= FIFTEEN){
+            for(int i = (messages.size() - 1) - FIFTEEN; i < messages.size(); i++){
+                messages.get(i).printMessage();
+            }
+        }
+        else {
+            for (Message message : messages) {
+                message.printMessage();
+            }
         }
     }
 }
