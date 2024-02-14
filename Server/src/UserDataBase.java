@@ -1,10 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +11,14 @@ public class UserDataBase {
     private List<User> users;
     private Gson gson = new Gson();
 
-    public UserDataBase() {
-        users = loadUsers();
-    }
+    public UserDataBase() {users = loadUsers();}
 
     private List<User> loadUsers() {
         try {
+            System.out.println("try");
             BufferedReader reader = new BufferedReader(new FileReader(Data_Base_File));
-            Type userlistType = new TypeToken<ArrayList<User>>(){}.getType();
+            System.out.println("1st line");
+            Type userlistType = new TypeToken<List<User>>(){}.getType();
             return gson.fromJson(reader, userlistType);
         } catch (IOException e) {
             System.out.println("User database not created.");
@@ -31,9 +28,11 @@ public class UserDataBase {
 
     public void addUser(User user){
         users.add(user);
+        saveUserToDataBase();
     }
 
     private void saveUserToDataBase(){
+        System.out.println("write start");
         try(FileWriter writer = new FileWriter(Data_Base_File)) {
             gson.toJson(users, writer);
         } catch(IOException e){

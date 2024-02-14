@@ -2,7 +2,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ClientHandler extends Thread {
     // pour traiter la demande de chaque client sur un socket particulier
@@ -28,7 +27,7 @@ public class ClientHandler extends Thread {
             } catch (IOException e) {
                 System.out.println("Couldn't close a socket, what's going on?");
             }
-            System.out.println("Connection with client# " + clientNumber+ " closed");
+            System.out.println("Connection with client # " + clientNumber+ " closed");
         }
     }
 
@@ -51,6 +50,8 @@ public class ClientHandler extends Thread {
         else{
             out.writeUTF("Hello, write your password to create an account");
             String password = in.readUTF();
+            User newUser = new User(username,password);
+            userDataBase.addUser(newUser);
             out.writeUTF("Welcome " + username);
         }
     }
