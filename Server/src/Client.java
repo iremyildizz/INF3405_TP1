@@ -39,6 +39,9 @@ public class Client {
         String password = scanner.nextLine();
         out.writeUTF(password);
 
+        String systemMessage = in.readUTF();
+        System.out.println(systemMessage);
+
         // fermeture de La connexion avec le serveur
         socket.close();
     }

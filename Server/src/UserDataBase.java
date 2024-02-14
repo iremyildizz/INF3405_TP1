@@ -43,6 +43,8 @@ public class UserDataBase {
     }
 
     public boolean validateUsername(String username){
+        System.out.println(username);
+        System.out.println(users);
         return users.stream().anyMatch(user -> user.getUsername().equals(username));
     }
 }

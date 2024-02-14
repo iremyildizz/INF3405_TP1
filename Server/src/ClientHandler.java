@@ -41,9 +41,17 @@ public class ClientHandler extends Thread {
         if((userDataBase.validateUsername(username))){
             out.writeUTF("What is your password");
             String password = in.readUTF();
+                if(userDataBase.validateUser(username,password)){
+                    out.writeUTF("Welcome back " + username);
+                }
+                else {
+                    out.writeUTF("Wrong password, connection denied");
+                }
         }
-        else
+        else{
             out.writeUTF("Hello, write your password to create an account");
-        String password = in.readUTF();
+            String password = in.readUTF();
+            out.writeUTF("Welcome " + username);
+        }
     }
 }
