@@ -22,8 +22,8 @@ public class Message {
         return currentDateTime.format(formatter);
     }
 
-    public void printMessage(){
-        System.out.println("[" + username_ + " - " + ip_ + ":" + port_ +
+    public String toString(){
+        return ("[" + username_ + " - " + ip_ + ":" + port_ +
                 " - " + time_ +"]: " + message_);
     }
 

@@ -1,5 +1,6 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -24,23 +25,10 @@ public class Client {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         // Attente de la réception d'un message envoyé par le, server sur le canal
-        String helloMessageFromServer = in.readUTF();
-        System.out.println(helloMessageFromServer);
+        connectionToServer(in, out);
 
-        String usernameQuestion = in.readUTF();
-        System.out.println(usernameQuestion);
-
-        String username = scanner.nextLine();
-        out.writeUTF(username);
-
-        String passwordQuestion = in.readUTF();
-        System.out.println(passwordQuestion);
-
-        String password = scanner.nextLine();
-        out.writeUTF(password);
-
-        String systemMessage = in.readUTF();
-        System.out.println(systemMessage);
+        String oldMessages = in.readUTF();
+        System.out.println(oldMessages);
 
         // fermeture de La connexion avec le serveur
         socket.close();
@@ -61,5 +49,25 @@ public class Client {
                 port = -1;
             }
         } while(!Validation.isValidPort(port));
+    }
+
+    public static void connectionToServer(DataInputStream in, DataOutputStream out) throws IOException {
+        String helloMessageFromServer = in.readUTF();
+        System.out.println(helloMessageFromServer);
+
+        String usernameQuestion = in.readUTF();
+        System.out.println(usernameQuestion);
+
+        String username = scanner.nextLine();
+        out.writeUTF(username);
+
+        String passwordQuestion = in.readUTF();
+        System.out.println(passwordQuestion);
+
+        String password = scanner.nextLine();
+        out.writeUTF(password);
+
+        String systemMessage = in.readUTF();
+        System.out.println(systemMessage);
     }
 }

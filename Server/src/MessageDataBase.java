@@ -41,16 +41,19 @@ public class MessageDataBase {
         }
     }
 
-    public void printLastMessages(){
+    public StringBuilder printLastMessages(){
+        StringBuilder oldMessages = new StringBuilder();
         if (messages.size() >= FIFTEEN){
             for(int i = (messages.size() - 1) - FIFTEEN; i < messages.size(); i++){
-                messages.get(i).printMessage();
+                oldMessages.append(messages.get(i).toString()).append("\n");
             }
         }
         else {
             for (Message message : messages) {
-                message.printMessage();
+                oldMessages.append(message.toString()).append("\n");
             }
         }
+
+        return oldMessages;
     }
 }

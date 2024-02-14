@@ -8,6 +8,7 @@ public class ClientHandler extends Thread {
     private Socket socket;
     private int clientNumber;
     private UserDataBase userDataBase = new UserDataBase();
+    private MessageDataBase chatRoom = new MessageDataBase();
     public ClientHandler(Socket socket, int clientNumber) {
         this.socket = socket;
         this.clientNumber = clientNumber; System.out.println("New connection with client#" + clientNumber + " at" + socket);
@@ -19,6 +20,7 @@ public class ClientHandler extends Thread {
             // création de canal d’envoi // envoi de message
             out.writeUTF("Hello from server - you are client#" + clientNumber);
             askUserInfo();
+            out.writeUTF(chatRoom.printLastMessages().toString());
         } catch (IOException e) {
             System.out.println("Error handling client# " + clientNumber + ": " + e);
         } finally {
