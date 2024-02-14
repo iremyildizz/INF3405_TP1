@@ -15,9 +15,7 @@ public class UserDataBase {
 
     private List<User> loadUsers() {
         try {
-            System.out.println("try");
             BufferedReader reader = new BufferedReader(new FileReader(Data_Base_File));
-            System.out.println("1st line");
             Type userlistType = new TypeToken<List<User>>(){}.getType();
             return gson.fromJson(reader, userlistType);
         } catch (IOException e) {
@@ -32,7 +30,6 @@ public class UserDataBase {
     }
 
     private void saveUserToDataBase(){
-        System.out.println("write start");
         try(FileWriter writer = new FileWriter(Data_Base_File)) {
             gson.toJson(users, writer);
         } catch(IOException e){
