@@ -1,17 +1,21 @@
 public class User {
-    private String username;
-    private String password;
+    private String username_;
+    private String password_;
+    private String ip_;
 
-    public User(String username, String password){
-        this.username = username;
-        this.password = password;
+    public User(String username, String password, String ip){
+        username_ = username;
+        password_ = password;
+        ip_ = ip;
     }
 
     public String getUsername() {
-        return username;
+        return username_;
     }
 
     public String getPassword() {
-        return password;
+        return password_;
     }
+
+    public String getIp_() {return ip_;}
 }
