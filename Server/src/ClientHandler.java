@@ -50,7 +50,7 @@ public class ClientHandler extends Thread {
         else{
             out.writeUTF("Hello, write your password to create an account");
             String password = in.readUTF();
-            User newUser = new User(username,password,Client.serverAddress);
+            User newUser = new User(username,password,Client.serverAddress,Client.port);
             userDataBase.addUser(newUser);
             out.writeUTF("Welcome " + username);
         }
