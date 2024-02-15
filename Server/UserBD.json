@@ -1,4 +1,1 @@
-[
-  {"username_":"none","password_":"none","ip_": "127.0.0.1", "port_" : 5000},
-  {"username_":"iryil","password_":"p","ip_": "127.0.0.1", "port_" :  5000}
-]
+[{"username_":"none","password_":"none","ip_":"127.0.0.1","port_":5000},{"username_":"iryil","password_":"p","ip_":"127.0.0.1","port_":5000},{"username_":"breaker","password_":"b","port_":0}]
