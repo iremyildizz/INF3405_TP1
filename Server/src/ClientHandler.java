@@ -20,6 +20,7 @@ public class ClientHandler extends Thread {
             // création de canal d’envoi // envoi de message
             out.writeUTF("Hello from server - you are client#" + clientNumber);
             askUserInfo();
+            // envoi des anciens messages
             out.writeUTF(chatRoom.printLastMessages().toString());
         } catch (IOException e) {
             System.out.println("Error handling client# " + clientNumber + ": " + e);

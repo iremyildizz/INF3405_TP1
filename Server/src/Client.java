@@ -26,9 +26,9 @@ public class Client {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         // Attente de la réception d'un message envoyé par le, server sur le canal
         connectionToServer(in, out);
+        loadOldMessages(in,out);
 
-        String oldMessages = in.readUTF();
-        System.out.println(oldMessages);
+
 
         // fermeture de La connexion avec le serveur
         socket.close();
@@ -51,7 +51,7 @@ public class Client {
         } while(!Validation.isValidPort(port));
     }
 
-    public static void connectionToServer(DataInputStream in, DataOutputStream out) throws IOException {
+    private static void connectionToServer(DataInputStream in, DataOutputStream out) throws IOException {
         String helloMessageFromServer = in.readUTF();
         System.out.println(helloMessageFromServer);
 
@@ -69,5 +69,10 @@ public class Client {
 
         String systemMessage = in.readUTF();
         System.out.println(systemMessage);
+    }
+
+    private static void loadOldMessages(DataInputStream in, DataOutputStream out) throws IOException{
+        String oldMessages = in.readUTF();
+        System.out.println(oldMessages);
     }
 }

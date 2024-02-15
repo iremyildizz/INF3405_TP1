@@ -1,10 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,7 @@ public class MessageDataBase {
     private List<Message> messages;
     private Gson gson = new Gson();
     private final int FIFTEEN = 15;
+
 
     public MessageDataBase(){messages = loadMessages();}
 
@@ -28,9 +26,14 @@ public class MessageDataBase {
         }
     }
 
-    public void addMessage(Message message){
-        messages.add(message);
-        saveMessagesToDataBase();
+    public String addMessage(Message message){
+        if(validateMessage(message.getMessage())){
+            messages.add(message);
+            saveMessagesToDataBase();
+            return(message.toString());
+        }
+        else
+            return("Please limit your message to under 200 characters.");
     }
 
     private void saveMessagesToDataBase(){
@@ -55,5 +58,9 @@ public class MessageDataBase {
         }
 
         return oldMessages;
+    }
+
+    private boolean validateMessage(String message){
+        return (message.length() <= 200);
     }
 }

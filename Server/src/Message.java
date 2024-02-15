@@ -31,5 +31,5 @@ public class Message {
     public String getIp(){return ip_;}
     public int getPort(){return port_;}
     public String getTime(){return time_;}
-    public String getMessage_(){return message_;}
+    public String getMessage(){return message_;}
 }
