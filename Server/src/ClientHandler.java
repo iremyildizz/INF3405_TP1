@@ -48,8 +48,6 @@ public class ClientHandler extends Thread {
     }
 
     public User askUserInfo(DataInputStream in, DataOutputStream out) throws IOException {
-
-
         out.writeUTF("What is your username");
         String username = in.readUTF();
         if((userDataBase.validateUsername(username))){
