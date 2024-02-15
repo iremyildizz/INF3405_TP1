@@ -14,8 +14,6 @@ public class Client {
     public static void main(String[] args) throws Exception {
         // Adresse et port du serveur
         askInformation();
-//        String serverAddress = "127.0.0.1";
-//        int port = 5000;
 
         // Création d'une nouvelle connexion aves le serveur
         socket = new Socket(serverAddress, port);
@@ -28,7 +26,8 @@ public class Client {
         connectionToServer(in, out);
         loadOldMessages(in,out);
 
-
+        String newMessage = scanner.nextLine();
+        out.writeUTF(newMessage);
 
         // fermeture de La connexion avec le serveur
         socket.close();

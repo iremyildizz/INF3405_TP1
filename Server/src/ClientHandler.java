@@ -14,14 +14,27 @@ public class ClientHandler extends Thread {
         this.clientNumber = clientNumber; System.out.println("New connection with client#" + clientNumber + " at" + socket);
     }
     public void run() {
+        DataInputStream in = null;
+        DataOutputStream out = null;
+        try {
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         // Création de thread qui envoi un message à un client
         try {
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             // création de canal d’envoi // envoi de message
             out.writeUTF("Hello from server - you are client#" + clientNumber);
-            askUserInfo();
+            User newUser = askUserInfo(in, out);
+
             // envoi des anciens messages
             out.writeUTF(chatRoom.printLastMessages().toString());
+
+            String newMessageText = in.readUTF();
+            Message newMessage = new Message(newUser, newMessageText);
+            chatRoom.addMessage(newMessage);
+
         } catch (IOException e) {
             System.out.println("Error handling client# " + clientNumber + ": " + e);
         } finally {
@@ -34,9 +47,8 @@ public class ClientHandler extends Thread {
         }
     }
 
-    public void askUserInfo() throws IOException {
-        DataInputStream in = new DataInputStream(socket.getInputStream());
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+    public User askUserInfo(DataInputStream in, DataOutputStream out) throws IOException {
+
 
         out.writeUTF("What is your username");
         String username = in.readUTF();
@@ -45,9 +57,11 @@ public class ClientHandler extends Thread {
             String password = in.readUTF();
                 if(userDataBase.validateUser(username,password)){
                     out.writeUTF("Welcome back " + username);
+                    return (userDataBase.getUser(username));
                 }
                 else {
                     out.writeUTF("Wrong password, connection denied");
+                    return null;
                 }
         }
         else{
@@ -56,6 +70,7 @@ public class ClientHandler extends Thread {
             User newUser = new User(username,password,Client.serverAddress,Client.port);
             userDataBase.addUser(newUser);
             out.writeUTF("Welcome " + username);
+            return newUser;
         }
     }
 }
