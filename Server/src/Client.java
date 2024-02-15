@@ -26,8 +26,9 @@ public class Client {
         connectionToServer(in, out);
         loadOldMessages(in,out);
 
-        String newMessage = scanner.nextLine();
-        out.writeUTF(newMessage);
+        sendMessage(in, out);
+        String messageSent = in.readUTF();
+        System.out.println(messageSent);
 
         // fermeture de La connexion avec le serveur
         socket.close();
@@ -73,5 +74,10 @@ public class Client {
     private static void loadOldMessages(DataInputStream in, DataOutputStream out) throws IOException{
         String oldMessages = in.readUTF();
         System.out.println(oldMessages);
+    }
+
+    private static void sendMessage(DataInputStream in, DataOutputStream out) throws IOException{
+        String newMessage = scanner.nextLine();
+        out.writeUTF(newMessage);
     }
 }

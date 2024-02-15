@@ -33,7 +33,7 @@ public class ClientHandler extends Thread {
 
             String newMessageText = in.readUTF();
             Message newMessage = new Message(newUser, newMessageText);
-            chatRoom.addMessage(newMessage);
+            out.writeUTF(chatRoom.addMessage(newMessage));
 
         } catch (IOException e) {
             System.out.println("Error handling client# " + clientNumber + ": " + e);
