@@ -1,12 +1,10 @@
 public class User {
     private String username_;
     private String password_;
-    private String ipPort_;
 
-    public User(String username, String password, String ipPort){
+    public User(String username, String password){
         username_ = username;
         password_ = password;
-        ipPort_ = ipPort;
     }
 
     public String getUsername() {
@@ -16,5 +14,4 @@ public class User {
     public String getPassword() {
         return password_;
     }
-    public String getIpPort(){ return ipPort_;}
 }

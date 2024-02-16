@@ -82,7 +82,7 @@ public class ClientHandler extends Thread {
         else{
             out.writeUTF("Hello, write your password to create an account");
             String password = in.readUTF();
-            User newUser = new User(username,password,socket.getRemoteSocketAddress().toString());
+            User newUser = new User(username,password);
             userDataBase.addUser(newUser);
             out.writeUTF("Welcome " + username + "\nTo disconnect send an #.");
             return newUser;

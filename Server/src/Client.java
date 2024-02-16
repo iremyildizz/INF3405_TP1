@@ -24,7 +24,7 @@ public class Client {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         // Attente de la réception d'un message envoyé par le, server sur le canal
         connectionToServer(in, out);
-        if(!socket.isClosed()) {
+        if(socket.isClosed()) {
             return;
         }
         loadOldMessages(in,out);
