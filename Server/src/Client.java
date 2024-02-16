@@ -38,9 +38,7 @@ public class Client {
         }).start();
 
         try{
-            while(true){
-                sendMessage(out);
-            }
+            while(sendMessage(out)){}
         } finally {
             socket.close();
         }
@@ -87,8 +85,9 @@ public class Client {
         System.out.println(oldMessages);
     }
 
-    private static void sendMessage(DataOutputStream out) throws IOException{
+    private static boolean sendMessage(DataOutputStream out) throws IOException{
         String newMessage = scanner.nextLine();
         out.writeUTF(newMessage);
+        return !newMessage.equals("#");
     }
 }

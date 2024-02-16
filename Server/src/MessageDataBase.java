@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MessageDataBase {
     private static final String Data_Base_File = "messageBD.json";
-    private List<Message> messages;
+    private static List<Message> messages;
     private Gson gson = new Gson();
     private final int FIFTEEN = 15;
 

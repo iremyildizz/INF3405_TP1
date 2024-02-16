@@ -35,11 +35,14 @@ public class ClientHandler extends Thread {
 
             String newMessageText;
             while ((newMessageText = in.readUTF()) != null){
-                System.out.println("Testetststst");
+                if(newMessageText.equals("#")){
+                    Server.outputsToClients.remove(out);
+                    break;
+                }
+                Message newMessage = new Message(newUser, socket.getRemoteSocketAddress().toString(), newMessageText);
+                chatRoom.addMessage(newMessage);
                 for(DataOutputStream writer : Server.outputsToClients){
-                    Message newMessage = new Message(newUser, socket.getRemoteSocketAddress().toString(), newMessageText);
-                    System.out.println("Tryryryyr");
-                    writer.writeUTF(chatRoom.addMessage(newMessage));
+                    writer.writeUTF(newMessage.toString());
                 }
             }
 
@@ -62,7 +65,7 @@ public class ClientHandler extends Thread {
             out.writeUTF("What is your password");
             String password = in.readUTF();
                 if(userDataBase.validateUser(username,password)){
-                    out.writeUTF("Welcome back " + username);
+                    out.writeUTF("Welcome back " + username + "\nTo disconnect send an #.");
                     return (userDataBase.getUser(username));
                 }
                 else {
@@ -75,7 +78,7 @@ public class ClientHandler extends Thread {
             String password = in.readUTF();
             User newUser = new User(username,password,socket.getRemoteSocketAddress().toString());
             userDataBase.addUser(newUser);
-            out.writeUTF("Welcome " + username);
+            out.writeUTF("Welcome " + username + "\nTo disconnect send an #.");
             return newUser;
         }
     }
