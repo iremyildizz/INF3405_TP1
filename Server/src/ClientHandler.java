@@ -40,9 +40,14 @@ public class ClientHandler extends Thread {
                     break;
                 }
                 Message newMessage = new Message(newUser, socket.getRemoteSocketAddress().toString(), newMessageText);
-                chatRoom.addMessage(newMessage);
-                for(DataOutputStream writer : Server.outputsToClients){
-                    writer.writeUTF(newMessage.toString());
+                if(!(newMessage.toString().length() <= 200)){
+                    out.writeUTF("Please limit your message to under 200 characters.");
+                }
+                else {
+                    chatRoom.addMessage(newMessage);
+                    for (DataOutputStream writer : Server.outputsToClients) {
+                        writer.writeUTF(newMessage.toString());
+                    }
                 }
             }
 

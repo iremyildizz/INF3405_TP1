@@ -26,14 +26,9 @@ public class MessageDataBase {
         }
     }
 
-    public String addMessage(Message message){
-        if(validateMessage(message.getMessage())){
+    public void addMessage(Message message){
             messages.add(message);
             saveMessagesToDataBase();
-            return(message.toString());
-        }
-        else
-            return("Please limit your message to under 200 characters.");
     }
 
     private void saveMessagesToDataBase(){
@@ -56,11 +51,6 @@ public class MessageDataBase {
                 oldMessages.append(message.toString()).append("\n");
             }
         }
-
         return oldMessages;
-    }
-
-    private boolean validateMessage(String message){
-        return (message.length() <= 200);
     }
 }
