@@ -27,6 +27,7 @@ public class Client {
         if(socket.isClosed()) {
             return;
         }
+
         loadOldMessages(in,out);
 
         new Thread(() -> {
@@ -81,6 +82,8 @@ public class Client {
 
         String systemMessage = in.readUTF();
         System.out.println(systemMessage);
+        if(!isClientConnected(systemMessage))
+            socket.close();
     }
 
     private static void loadOldMessages(DataInputStream in, DataOutputStream out) throws IOException{
@@ -92,5 +95,11 @@ public class Client {
         String newMessage = scanner.nextLine();
         out.writeUTF(newMessage);
         return !newMessage.equals("#");
+    }
+
+    private static boolean isClientConnected(String serverMessage){
+        if(serverMessage.equals("Wrong password, connection denied"))
+            return false;
+        return true;
     }
 }
