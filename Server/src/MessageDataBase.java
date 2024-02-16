@@ -47,7 +47,7 @@ public class MessageDataBase {
     public StringBuilder printLastMessages(){
         StringBuilder oldMessages = new StringBuilder();
         if (messages.size() >= FIFTEEN){
-            for(int i = (messages.size() - 1) - FIFTEEN; i < messages.size(); i++){
+            for(int i = (messages.size()) - FIFTEEN; i < messages.size(); i++){
                 oldMessages.append(messages.get(i).toString()).append("\n");
             }
         }

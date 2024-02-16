@@ -1,10 +1,14 @@
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 public class Server {
     private static ServerSocket Listener; // Application Serveur
+    public static List<DataOutputStream> outputsToClients = new ArrayList<>();
     static String serverAddress;
     static int serverPort;
 

@@ -31,9 +31,17 @@ public class ClientHandler extends Thread {
             // envoi des anciens messages
             out.writeUTF(chatRoom.printLastMessages().toString());
 
-            String newMessageText = in.readUTF();
-            Message newMessage = new Message(newUser, socket.getRemoteSocketAddress().toString(), newMessageText);
-            out.writeUTF(chatRoom.addMessage(newMessage));
+            Server.outputsToClients.add(out);
+
+            String newMessageText;
+            while ((newMessageText = in.readUTF()) != null){
+                System.out.println("Testetststst");
+                for(DataOutputStream writer : Server.outputsToClients){
+                    Message newMessage = new Message(newUser, socket.getRemoteSocketAddress().toString(), newMessageText);
+                    System.out.println("Tryryryyr");
+                    writer.writeUTF(chatRoom.addMessage(newMessage));
+                }
+            }
 
         } catch (IOException e) {
             System.out.println("Error handling client# " + clientNumber + ": " + e);

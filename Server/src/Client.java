@@ -26,12 +26,24 @@ public class Client {
         connectionToServer(in, out);
         loadOldMessages(in,out);
 
-        sendMessage(in, out);
-        String messageSent = in.readUTF();
-        System.out.println(messageSent);
+        new Thread(() -> {
+            try{
+                String convoMessage;
+                while((convoMessage = in.readUTF()) != null){
+                    System.out.println(convoMessage);
+                }
+            } catch (IOException e) {
+                System.out.println("Server connection lost.");
+            }
+        }).start();
 
-        // fermeture de La connexion avec le serveur
-        socket.close();
+        try{
+            while(true){
+                sendMessage(out);
+            }
+        } finally {
+            socket.close();
+        }
     }
 
     public static void askInformation(){
@@ -39,7 +51,6 @@ public class Client {
             System.out.println("What is the server IP?");
             serverAddress = scanner.nextLine();
         } while(!Validation.isIP(serverAddress));
-        System.out.println(serverAddress);
         do {
             System.out.println("What is the port?");
             try {
@@ -76,7 +87,7 @@ public class Client {
         System.out.println(oldMessages);
     }
 
-    private static void sendMessage(DataInputStream in, DataOutputStream out) throws IOException{
+    private static void sendMessage(DataOutputStream out) throws IOException{
         String newMessage = scanner.nextLine();
         out.writeUTF(newMessage);
     }
