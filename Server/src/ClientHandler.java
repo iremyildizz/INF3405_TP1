@@ -29,28 +29,28 @@ public class ClientHandler extends Thread {
             User newUser = askUserInfo(in, out);
 
             // envoi des anciens messages
-            out.writeUTF(chatRoom.printLastMessages().toString());
+            if(!socket.isClosed()){
+                out.writeUTF(chatRoom.printLastMessages().toString());
 
-            Server.outputsToClients.add(out);
+                Server.outputsToClients.add(out);
 
-            String newMessageText;
-            while ((newMessageText = in.readUTF()) != null){
-                if(newMessageText.equals("#")){
-                    Server.outputsToClients.remove(out);
-                    break;
-                }
-                Message newMessage = new Message(newUser, socket.getRemoteSocketAddress().toString(), newMessageText);
-                if(!(newMessage.toString().length() <= 200)){
-                    out.writeUTF("Please limit your message to under 200 characters.");
-                }
-                else {
-                    chatRoom.addMessage(newMessage);
-                    for (DataOutputStream writer : Server.outputsToClients) {
-                        writer.writeUTF(newMessage.toString());
+                String newMessageText;
+                while ((newMessageText = in.readUTF()) != null) {
+                    if (newMessageText.equals("#")) {
+                        Server.outputsToClients.remove(out);
+                        break;
+                    }
+                    Message newMessage = new Message(newUser, socket.getRemoteSocketAddress().toString(), newMessageText);
+                    if (!(newMessage.toString().length() <= 200)) {
+                        out.writeUTF("Please limit your message to under 200 characters.");
+                    } else {
+                        chatRoom.addMessage(newMessage);
+                        for (DataOutputStream writer : Server.outputsToClients) {
+                            writer.writeUTF(newMessage.toString());
+                        }
                     }
                 }
             }
-
         } catch (IOException e) {
             System.out.println("Error handling client# " + clientNumber + ": " + e);
         } finally {
@@ -75,6 +75,7 @@ public class ClientHandler extends Thread {
                 }
                 else {
                     out.writeUTF("Wrong password, connection denied");
+                    socket.close();
                     return null;
                 }
         }
