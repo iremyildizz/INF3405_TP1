@@ -3,17 +3,15 @@ import java.time.format.DateTimeFormatter;
 
 public class Message {
     private String username_;
-    private String ip_;
-    private int port_;
+    private String ipPort_;
     private String time_;
     private String message_;
 
-    public Message(User user, String message){
+    public Message(User user, String ipPort, String message){
         username_ = user.getUsername();
-        ip_ = user.getIp();
-        port_ = user.getPort();
         time_ = currentTime();
         message_ = message;
+        ipPort_ = ipPort;
     }
 
     private String currentTime(){
@@ -23,13 +21,12 @@ public class Message {
     }
 
     public String toString(){
-        return ("[" + username_ + " - " + ip_ + ":" + port_ +
+        return ("[" + username_ + " - " + ipPort_ +
                 " - " + time_ +"]: " + message_);
     }
 
     public String getUsername(){return username_;}
-    public String getIp(){return ip_;}
-    public int getPort(){return port_;}
+    public String getIpPort(){return ipPort_;}
     public String getTime(){return time_;}
     public String getMessage(){return message_;}
 }

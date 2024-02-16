@@ -39,7 +39,7 @@ public class Client {
             System.out.println("What is the server IP?");
             serverAddress = scanner.nextLine();
         } while(!Validation.isIP(serverAddress));
-
+        System.out.println(serverAddress);
         do {
             System.out.println("What is the port?");
             try {

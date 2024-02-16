@@ -32,7 +32,7 @@ public class ClientHandler extends Thread {
             out.writeUTF(chatRoom.printLastMessages().toString());
 
             String newMessageText = in.readUTF();
-            Message newMessage = new Message(newUser, newMessageText);
+            Message newMessage = new Message(newUser, socket.getRemoteSocketAddress().toString(), newMessageText);
             out.writeUTF(chatRoom.addMessage(newMessage));
 
         } catch (IOException e) {
@@ -65,7 +65,7 @@ public class ClientHandler extends Thread {
         else{
             out.writeUTF("Hello, write your password to create an account");
             String password = in.readUTF();
-            User newUser = new User(username,password,Client.serverAddress,Client.port);
+            User newUser = new User(username,password,socket.getRemoteSocketAddress().toString());
             userDataBase.addUser(newUser);
             out.writeUTF("Welcome " + username);
             return newUser;
